@@ -1,0 +1,25 @@
+#!/bin/bash
+
+FPATH="/tmp/Quick_Screenshot.png"
+
+scrot -bs $FPATH
+
+if [ $# == 0 ]
+then
+	URL=$(upload2flickr $FPATH)
+else
+	URL=$(upload2flickr $FPATH "$1")
+fi
+
+if [ $# == 2 ]
+then
+	if [ $2 == "-t" ]
+	then
+		tweet "$1 $URL"
+	fi
+fi
+
+echo $URL | xsel -b -i
+
+notify-send '<span color="green" size="18000">The screenshot is uploaded to '$URL'</span>'
+
