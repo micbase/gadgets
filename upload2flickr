@@ -1,0 +1,23 @@
+#!/usr/bin/env /usr/bin/python2.7
+
+import flickrapi
+import flickrapi.shorturl
+import sys
+
+api_key = ''
+api_secret = ''
+
+if len(sys.argv) >= 2:
+    flickr = flickrapi.FlickrAPI(api_key, api_secret)
+    (token, frob) = flickr.get_token_part_one(perms='write')
+    if not token: raw_input("Press ENTER after you authorized this program")
+    flickr.get_token_part_two((token, frob))
+
+    if len(sys.argv)==2:
+        result = flickr.upload(filename=sys.argv[1],tags='Quick_Screenshot')
+    elif len(sys.argv)==3:
+        result = flickr.upload(filename=sys.argv[1],title=sys.argv[2],tags='Screenshot')
+
+    print flickrapi.shorturl.url(result.find('photoid').text)
+else :
+    print "Error Parameter"

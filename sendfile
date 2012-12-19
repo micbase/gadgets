@@ -1,0 +1,15 @@
+#!/bin/bash
+
+files=""
+count=0
+for arg in $*
+do
+	if [ $count != 0 ]
+	then
+		files=$files"$arg "
+	fi
+
+	let "count=count+1"
+done
+
+echo -e "Hi,\nHere is the files.\n\nSincerely,\nMichael" | mutt -s "Files" -a $files -- $1
